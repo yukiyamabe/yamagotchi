@@ -90,6 +90,12 @@ export const QUOTES: Quote[] = [
     character: "太宰治",
     series: "文豪ストレイドッグス",
   },
+  // ひゃくエム
+  {
+    text: "浅く考えろ 世の中舐めろ",
+    character: "財津凛太朗",
+    series: "ひゃくエム。",
+  },
 ]
 
 export function getRandomQuote(): Quote {
