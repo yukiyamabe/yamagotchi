@@ -252,6 +252,165 @@ function drawHands(frame: SpriteFrame, alt = false) {
   }
 }
 
+/** Draw small stubby arms on both sides of the body */
+function drawArms(
+  frame: SpriteFrame,
+  offsetY = 0,
+  style: "relaxed" | "gesture-left" | "tucked" | "droopy" = "relaxed",
+) {
+  if (style === "relaxed") {
+    // Left arm - stubby, hanging at side
+    dot(frame, 6, 18 + offsetY, K)
+    dot(frame, 5, 19 + offsetY, K)
+    dot(frame, 6, 19 + offsetY, S)
+    dot(frame, 5, 20 + offsetY, K)
+    dot(frame, 6, 20 + offsetY, S)
+    dot(frame, 5, 21 + offsetY, K)
+    dot(frame, 6, 21 + offsetY, K)
+    // Right arm
+    dot(frame, 25, 18 + offsetY, K)
+    dot(frame, 26, 19 + offsetY, K)
+    dot(frame, 25, 19 + offsetY, S)
+    dot(frame, 26, 20 + offsetY, K)
+    dot(frame, 25, 20 + offsetY, S)
+    dot(frame, 26, 21 + offsetY, K)
+    dot(frame, 25, 21 + offsetY, K)
+  } else if (style === "gesture-left") {
+    // Left arm raised up (gesturing)
+    dot(frame, 5, 16 + offsetY, K)
+    dot(frame, 4, 16 + offsetY, K)
+    dot(frame, 5, 17 + offsetY, S)
+    dot(frame, 4, 17 + offsetY, K)
+    dot(frame, 6, 17 + offsetY, K)
+    dot(frame, 3, 16 + offsetY, K)
+    dot(frame, 3, 17 + offsetY, S)
+    // Right arm relaxed
+    dot(frame, 25, 18 + offsetY, K)
+    dot(frame, 26, 19 + offsetY, K)
+    dot(frame, 25, 19 + offsetY, S)
+    dot(frame, 26, 20 + offsetY, K)
+    dot(frame, 25, 20 + offsetY, S)
+    dot(frame, 26, 21 + offsetY, K)
+    dot(frame, 25, 21 + offsetY, K)
+  } else if (style === "tucked") {
+    // Arms tucked close to body
+    dot(frame, 7, 19 + offsetY, K)
+    dot(frame, 7, 20 + offsetY, S)
+    dot(frame, 7, 21 + offsetY, K)
+    dot(frame, 24, 19 + offsetY, K)
+    dot(frame, 24, 20 + offsetY, S)
+    dot(frame, 24, 21 + offsetY, K)
+  } else if (style === "droopy") {
+    // Arms hanging limply, lower than normal
+    dot(frame, 6, 19 + offsetY, K)
+    dot(frame, 5, 20 + offsetY, K)
+    dot(frame, 6, 20 + offsetY, S)
+    dot(frame, 5, 21 + offsetY, K)
+    dot(frame, 6, 21 + offsetY, S)
+    dot(frame, 5, 22 + offsetY, K)
+    dot(frame, 6, 22 + offsetY, K)
+    dot(frame, 25, 19 + offsetY, K)
+    dot(frame, 26, 20 + offsetY, K)
+    dot(frame, 25, 20 + offsetY, S)
+    dot(frame, 26, 21 + offsetY, K)
+    dot(frame, 25, 21 + offsetY, S)
+    dot(frame, 26, 22 + offsetY, K)
+    dot(frame, 25, 22 + offsetY, K)
+  }
+}
+
+/** Draw small stubby legs at the bottom of the body */
+function drawLegs(
+  frame: SpriteFrame,
+  offsetY = 0,
+  style: "standing" | "curled" | "wobbly" = "standing",
+) {
+  if (style === "standing") {
+    // Left leg
+    dot(frame, 13, 26 + offsetY, K)
+    dot(frame, 14, 26 + offsetY, K)
+    dot(frame, 13, 27 + offsetY, K)
+    dot(frame, 14, 27 + offsetY, S)
+    dot(frame, 13, 28 + offsetY, K)
+    dot(frame, 14, 28 + offsetY, S)
+    // Left foot (round)
+    dot(frame, 12, 29 + offsetY, K)
+    dot(frame, 13, 29 + offsetY, S)
+    dot(frame, 14, 29 + offsetY, S)
+    dot(frame, 15, 29 + offsetY, K)
+    dot(frame, 12, 30 + offsetY, K)
+    dot(frame, 13, 30 + offsetY, K)
+    dot(frame, 14, 30 + offsetY, K)
+    dot(frame, 15, 30 + offsetY, K)
+    // Right leg
+    dot(frame, 18, 26 + offsetY, K)
+    dot(frame, 19, 26 + offsetY, K)
+    dot(frame, 18, 27 + offsetY, S)
+    dot(frame, 19, 27 + offsetY, K)
+    dot(frame, 18, 28 + offsetY, S)
+    dot(frame, 19, 28 + offsetY, K)
+    // Right foot (round)
+    dot(frame, 17, 29 + offsetY, K)
+    dot(frame, 18, 29 + offsetY, S)
+    dot(frame, 19, 29 + offsetY, S)
+    dot(frame, 20, 29 + offsetY, K)
+    dot(frame, 17, 30 + offsetY, K)
+    dot(frame, 18, 30 + offsetY, K)
+    dot(frame, 19, 30 + offsetY, K)
+    dot(frame, 20, 30 + offsetY, K)
+  } else if (style === "curled") {
+    // Legs curled up slightly (sleeping)
+    dot(frame, 13, 26 + offsetY, K)
+    dot(frame, 14, 26 + offsetY, K)
+    dot(frame, 12, 27 + offsetY, K)
+    dot(frame, 13, 27 + offsetY, S)
+    dot(frame, 11, 28 + offsetY, K)
+    dot(frame, 12, 28 + offsetY, S)
+    dot(frame, 13, 28 + offsetY, K)
+    dot(frame, 11, 29 + offsetY, K)
+    dot(frame, 12, 29 + offsetY, K)
+    dot(frame, 18, 26 + offsetY, K)
+    dot(frame, 19, 26 + offsetY, K)
+    dot(frame, 19, 27 + offsetY, K)
+    dot(frame, 20, 27 + offsetY, S)
+    dot(frame, 19, 28 + offsetY, K)
+    dot(frame, 20, 28 + offsetY, S)
+    dot(frame, 21, 28 + offsetY, K)
+    dot(frame, 20, 29 + offsetY, K)
+    dot(frame, 21, 29 + offsetY, K)
+  } else if (style === "wobbly") {
+    // Wobbly legs (sick) - slightly offset/uneven
+    dot(frame, 12, 26 + offsetY, K)
+    dot(frame, 13, 26 + offsetY, K)
+    dot(frame, 12, 27 + offsetY, K)
+    dot(frame, 13, 27 + offsetY, S)
+    dot(frame, 12, 28 + offsetY, K)
+    dot(frame, 13, 28 + offsetY, S)
+    dot(frame, 11, 29 + offsetY, K)
+    dot(frame, 12, 29 + offsetY, S)
+    dot(frame, 13, 29 + offsetY, S)
+    dot(frame, 14, 29 + offsetY, K)
+    dot(frame, 11, 30 + offsetY, K)
+    dot(frame, 12, 30 + offsetY, K)
+    dot(frame, 13, 30 + offsetY, K)
+    dot(frame, 14, 30 + offsetY, K)
+    dot(frame, 19, 26 + offsetY, K)
+    dot(frame, 20, 26 + offsetY, K)
+    dot(frame, 19, 27 + offsetY, S)
+    dot(frame, 20, 27 + offsetY, K)
+    dot(frame, 19, 28 + offsetY, S)
+    dot(frame, 20, 28 + offsetY, K)
+    dot(frame, 18, 29 + offsetY, K)
+    dot(frame, 19, 29 + offsetY, S)
+    dot(frame, 20, 29 + offsetY, S)
+    dot(frame, 21, 29 + offsetY, K)
+    dot(frame, 18, 30 + offsetY, K)
+    dot(frame, 19, 30 + offsetY, K)
+    dot(frame, 20, 30 + offsetY, K)
+    dot(frame, 21, 30 + offsetY, K)
+  }
+}
+
 /** Draw a flat/neutral mouth */
 function drawFlatMouth(frame: SpriteFrame, offsetY = 0) {
   dot(frame, 14, 19 + offsetY, M)
@@ -269,12 +428,16 @@ function generateIdle(): SpriteAnimation {
   drawEyes(f1, 0)
   drawBlush(f1, 0)
   drawSmile(f1, 0)
+  drawArms(f1, 0, "relaxed")
+  drawLegs(f1, 0, "standing")
 
   const f2 = blank()
   drawBody(f2, -1)
   drawEyes(f2, -1)
   drawBlush(f2, -1)
   drawSmile(f2, -1)
+  drawArms(f2, -1, "relaxed")
+  drawLegs(f2, -1, "standing")
 
   return { frames: [f1, f2], frameDuration: 500 }
 }
@@ -285,12 +448,16 @@ function generateTalking(): SpriteAnimation {
   drawEyes(f1)
   drawBlush(f1)
   drawSmile(f1)
+  drawArms(f1, 0, "relaxed")
+  drawLegs(f1, 0, "standing")
 
   const f2 = blank()
   drawBody(f2)
   drawEyes(f2)
   drawBlush(f2)
   drawOpenMouth(f2)
+  drawArms(f2, 0, "gesture-left")
+  drawLegs(f2, 0, "standing")
 
   return { frames: [f1, f2], frameDuration: 300 }
 }
@@ -301,12 +468,14 @@ function generateCoding(): SpriteAnimation {
   drawFocusedEyes(f1)
   drawFlatMouth(f1)
   drawHands(f1, false)
+  drawLegs(f1, 0, "standing")
 
   const f2 = blank()
   drawBody(f2)
   drawFocusedEyes(f2)
   drawFlatMouth(f2)
   drawHands(f2, true)
+  drawLegs(f2, 0, "standing")
 
   return { frames: [f1, f2], frameDuration: 400 }
 }
@@ -320,6 +489,8 @@ function generateSleeping(): SpriteAnimation {
   dot(f1, 15, 20, M)
   dot(f1, 16, 20, M)
   dot(f1, 17, 20, M)
+  drawArms(f1, 1, "tucked")
+  drawLegs(f1, 1, "curled")
   drawZzz(f1)
 
   const f2 = blank()
@@ -329,6 +500,8 @@ function generateSleeping(): SpriteAnimation {
   dot(f2, 15, 20, M)
   dot(f2, 16, 20, M)
   dot(f2, 17, 20, M)
+  drawArms(f2, 1, "tucked")
+  drawLegs(f2, 1, "curled")
   // No Zzz in frame 2 (blink effect)
 
   return { frames: [f1, f2], frameDuration: 800 }
@@ -342,6 +515,8 @@ function generateSick(): SpriteAnimation {
   // Green tint on face
   dot(f1, 15, 12, G)
   dot(f1, 16, 12, G)
+  drawArms(f1, 0, "droopy")
+  drawLegs(f1, 0, "wobbly")
 
   const f2 = blank()
   drawBody(f2, 1)
@@ -349,6 +524,8 @@ function generateSick(): SpriteAnimation {
   drawSickMouth(f2, 1)
   dot(f2, 15, 13, G)
   dot(f2, 16, 13, G)
+  drawArms(f2, 1, "droopy")
+  drawLegs(f2, 1, "wobbly")
 
   return { frames: [f1, f2], frameDuration: 600 }
 }
