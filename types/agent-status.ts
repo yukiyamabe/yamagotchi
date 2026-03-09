@@ -1,25 +1,29 @@
 export type ProcessStatus = "running" | "stopped" | "error"
 
-export type TaskType = "idle" | "slack" | "coding" | "unknown"
+export type TaskType = "idle" | "slack" | "coding" | "skill" | "unknown"
 
 export type AgentStatus = {
   process: ProcessStatus
   task: TaskType
   agentName: string
   uptime: number
+  lastError?: string
+  lastResolved?: number // timestamp of last resolved error
 }
 
-export type CharacterState = "idle" | "talking" | "coding" | "sleeping" | "sick"
+export type CharacterState = "normal" | "processing" | "error" | "resolved" | "idle"
 
 export function toCharacterState(status: AgentStatus): CharacterState {
-  if (status.process === "stopped") return "sleeping"
-  if (status.process === "error") return "sick"
+  if (status.process === "stopped") return "idle"
+  if (status.process === "error") return "error"
+  // If resolved recently (within 30 seconds), show relieved face
+  if (status.lastResolved && Date.now() - status.lastResolved < 30000) return "resolved"
   switch (status.task) {
     case "slack":
-      return "talking"
     case "coding":
-      return "coding"
+    case "skill":
+      return "processing"
     default:
-      return "idle"
+      return "normal"
   }
 }

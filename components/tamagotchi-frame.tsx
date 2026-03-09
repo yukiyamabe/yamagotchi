@@ -10,11 +10,11 @@ type Props = {
 }
 
 const STATE_LABELS: Record<CharacterState, string> = {
-  idle: "まったり中...",
-  talking: "おしゃべり中!",
-  coding: "コーディング中...",
-  sleeping: "おやすみ中... zzZ",
-  sick: "ぐったり...",
+  normal: "通常稼働中 😊",
+  processing: "処理中... 🤔",
+  error: "エラー発生！ 😤",
+  resolved: "解決！ 😌",
+  idle: "おやすみ中... 💤",
 }
 
 export function TamagotchiFrame({ children, state, agentName }: Props) {

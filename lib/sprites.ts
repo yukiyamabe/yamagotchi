@@ -14,6 +14,7 @@ const G = "#44cc88" // green
 const R = "#ff4444" // red
 const Z = "#6666aa" // zzz
 const O = "#ff8c00" // orange pants
+const SP = "#ffee88" // sparkle
 
 export type SpriteFrame = string[][]
 export type SpriteAnimation = {
@@ -192,6 +193,102 @@ function drawFocusedEyes(frame: SpriteFrame, offsetY = 0) {
   dot(frame, 20, 15 + offsetY, W)
 }
 
+/** Draw thinking eyes (one eye slightly squinted) */
+function drawThinkingEyes(frame: SpriteFrame, offsetY = 0) {
+  // Left eye - normal open
+  dot(frame, 13, 13 + offsetY, E)
+  dot(frame, 14, 13 + offsetY, W)
+  dot(frame, 13, 14 + offsetY, E)
+  dot(frame, 14, 14 + offsetY, E)
+  dot(frame, 13, 15 + offsetY, E)
+  dot(frame, 14, 15 + offsetY, E)
+  // Right eye - slightly squinted
+  dot(frame, 18, 14 + offsetY, K)
+  dot(frame, 19, 14 + offsetY, E)
+  dot(frame, 20, 14 + offsetY, K)
+  dot(frame, 18, 15 + offsetY, E)
+  dot(frame, 19, 15 + offsetY, W)
+  dot(frame, 20, 15 + offsetY, E)
+}
+
+/** Draw frustrated/angry eyes (angled eyebrows) */
+function drawFrustratedEyes(frame: SpriteFrame, offsetY = 0) {
+  // Left eyebrow - angled down toward center
+  dot(frame, 11, 11 + offsetY, K)
+  dot(frame, 12, 12 + offsetY, K)
+  dot(frame, 13, 12 + offsetY, K)
+  // Left eye
+  dot(frame, 12, 14 + offsetY, E)
+  dot(frame, 13, 14 + offsetY, E)
+  dot(frame, 12, 15 + offsetY, E)
+  dot(frame, 13, 15 + offsetY, W)
+  // Right eyebrow - angled down toward center
+  dot(frame, 21, 11 + offsetY, K)
+  dot(frame, 20, 12 + offsetY, K)
+  dot(frame, 19, 12 + offsetY, K)
+  // Right eye
+  dot(frame, 19, 14 + offsetY, E)
+  dot(frame, 20, 14 + offsetY, E)
+  dot(frame, 19, 15 + offsetY, W)
+  dot(frame, 20, 15 + offsetY, E)
+}
+
+/** Draw gritted teeth mouth */
+function drawGrittedMouth(frame: SpriteFrame, offsetY = 0) {
+  dot(frame, 13, 19 + offsetY, K)
+  dot(frame, 14, 19 + offsetY, W)
+  dot(frame, 15, 19 + offsetY, K)
+  dot(frame, 16, 19 + offsetY, W)
+  dot(frame, 17, 19 + offsetY, K)
+  dot(frame, 18, 19 + offsetY, W)
+  dot(frame, 19, 19 + offsetY, K)
+  dot(frame, 13, 20 + offsetY, K)
+  dot(frame, 14, 20 + offsetY, W)
+  dot(frame, 15, 20 + offsetY, K)
+  dot(frame, 16, 20 + offsetY, W)
+  dot(frame, 17, 20 + offsetY, K)
+  dot(frame, 18, 20 + offsetY, W)
+  dot(frame, 19, 20 + offsetY, K)
+}
+
+/** Draw happy closed eyes (curved, content) */
+function drawHappyClosedEyes(frame: SpriteFrame, offsetY = 0) {
+  // Left eye - upward curve (happy)
+  dot(frame, 11, 15 + offsetY, E)
+  dot(frame, 12, 14 + offsetY, E)
+  dot(frame, 13, 14 + offsetY, E)
+  dot(frame, 14, 15 + offsetY, E)
+  // Right eye - upward curve (happy)
+  dot(frame, 18, 15 + offsetY, E)
+  dot(frame, 19, 14 + offsetY, E)
+  dot(frame, 20, 14 + offsetY, E)
+  dot(frame, 21, 15 + offsetY, E)
+}
+
+/** Draw gentle smile (smaller, softer) */
+function drawGentleSmile(frame: SpriteFrame, offsetY = 0) {
+  dot(frame, 15, 19 + offsetY, M)
+  dot(frame, 16, 20 + offsetY, M)
+  dot(frame, 17, 19 + offsetY, M)
+}
+
+/** Draw sparkles around the character */
+function drawSparkles(frame: SpriteFrame, alt = false) {
+  if (alt) {
+    // Sparkle positions set 2
+    dot(frame, 5, 5, SP)
+    dot(frame, 27, 8, SP)
+    dot(frame, 3, 14, SP)
+    dot(frame, 28, 3, SP)
+  } else {
+    // Sparkle positions set 1
+    dot(frame, 4, 8, SP)
+    dot(frame, 26, 5, SP)
+    dot(frame, 2, 12, SP)
+    dot(frame, 29, 6, SP)
+  }
+}
+
 /** Draw dizzy/spiral eyes */
 function drawDizzyEyes(frame: SpriteFrame, offsetY = 0, alt = false) {
   if (alt) {
@@ -286,7 +383,7 @@ function drawHands(frame: SpriteFrame, alt = false) {
 function drawArms(
   frame: SpriteFrame,
   offsetY = 0,
-  style: "relaxed" | "gesture-left" | "tucked" | "droopy" = "relaxed",
+  style: "relaxed" | "gesture-left" | "tucked" | "droopy" | "chin" = "relaxed",
 ) {
   if (style === "relaxed") {
     // Left arm - stubby, hanging at side
@@ -346,6 +443,22 @@ function drawArms(
     dot(frame, 25, 21 + offsetY, S)
     dot(frame, 26, 22 + offsetY, K)
     dot(frame, 25, 22 + offsetY, K)
+  } else if (style === "chin") {
+    // Left arm relaxed
+    dot(frame, 6, 18 + offsetY, K)
+    dot(frame, 5, 19 + offsetY, K)
+    dot(frame, 6, 19 + offsetY, S)
+    dot(frame, 5, 20 + offsetY, K)
+    dot(frame, 6, 20 + offsetY, S)
+    dot(frame, 5, 21 + offsetY, K)
+    dot(frame, 6, 21 + offsetY, K)
+    // Right arm raised to chin (thinking pose)
+    dot(frame, 25, 17 + offsetY, K)
+    dot(frame, 26, 17 + offsetY, K)
+    dot(frame, 25, 18 + offsetY, S)
+    dot(frame, 26, 18 + offsetY, K)
+    dot(frame, 25, 19 + offsetY, S)
+    dot(frame, 26, 19 + offsetY, K)
   }
 }
 
@@ -491,7 +604,7 @@ function drawOnigiri(frame: SpriteFrame, offsetY = 0) {
 
 // --- Sprite generation for each state ---
 
-function generateIdle(): SpriteAnimation {
+function generateNormal(): SpriteAnimation {
   const f1 = blank()
   drawBody(f1, 0)
   drawEyes(f1, 0)
@@ -513,47 +626,69 @@ function generateIdle(): SpriteAnimation {
   return { frames: [f1, f2], frameDuration: 500 }
 }
 
-function generateTalking(): SpriteAnimation {
+function generateProcessing(): SpriteAnimation {
   const f1 = blank()
   drawBody(f1)
-  drawEyes(f1)
-  drawSmile(f1)
-  drawArms(f1, 0, "relaxed")
-
-  drawLegs(f1, 0, "standing")
-
-  const f2 = blank()
-  drawBody(f2)
-  drawEyes(f2)
-  drawOpenMouth(f2)
-  drawArms(f2, 0, "gesture-left")
-
-  drawLegs(f2, 0, "standing")
-
-  return { frames: [f1, f2], frameDuration: 300 }
-}
-
-function generateCoding(): SpriteAnimation {
-  const f1 = blank()
-  drawBody(f1)
-  drawFocusedEyes(f1)
+  drawThinkingEyes(f1)
   drawFlatMouth(f1)
-  drawHands(f1, false)
+  drawArms(f1, 0, "chin")
 
   drawLegs(f1, 0, "standing")
 
   const f2 = blank()
-  drawBody(f2)
-  drawFocusedEyes(f2)
-  drawFlatMouth(f2)
-  drawHands(f2, true)
+  drawBody(f2, -1)
+  drawThinkingEyes(f2, -1)
+  drawFlatMouth(f2, -1)
+  drawArms(f2, -1, "chin")
 
-  drawLegs(f2, 0, "standing")
+  drawLegs(f2, -1, "standing")
 
   return { frames: [f1, f2], frameDuration: 400 }
 }
 
-function generateSleeping(): SpriteAnimation {
+function generateError(): SpriteAnimation {
+  const f1 = blank()
+  drawBody(f1, 0)
+  drawFrustratedEyes(f1, 0)
+  drawGrittedMouth(f1, 0)
+  drawArms(f1, 0, "droopy")
+
+  drawLegs(f1, 0, "wobbly")
+
+  const f2 = blank()
+  drawBody(f2, 1)
+  drawFrustratedEyes(f2, 1)
+  drawGrittedMouth(f2, 1)
+  drawArms(f2, 1, "droopy")
+
+  drawLegs(f2, 1, "wobbly")
+
+  return { frames: [f1, f2], frameDuration: 600 }
+}
+
+function generateResolved(): SpriteAnimation {
+  const f1 = blank()
+  drawBody(f1, 0)
+  drawHappyClosedEyes(f1, 0)
+  drawGentleSmile(f1, 0)
+  drawBlush(f1, 0)
+  drawArms(f1, 0, "relaxed")
+  drawLegs(f1, 0, "standing")
+  drawSparkles(f1, false)
+
+  const f2 = blank()
+  drawBody(f2, -1)
+  drawHappyClosedEyes(f2, -1)
+  drawGentleSmile(f2, -1)
+  drawBlush(f2, -1)
+  drawArms(f2, -1, "relaxed")
+  drawLegs(f2, -1, "standing")
+  drawSparkles(f2, true)
+
+  return { frames: [f1, f2], frameDuration: 500 }
+}
+
+function generateIdle(): SpriteAnimation {
   const f1 = blank()
   drawBody(f1, 1)
   drawClosedEyes(f1, 1)
@@ -580,38 +715,13 @@ function generateSleeping(): SpriteAnimation {
   return { frames: [f1, f2], frameDuration: 800 }
 }
 
-function generateSick(): SpriteAnimation {
-  const f1 = blank()
-  drawBody(f1, 0)
-  drawDizzyEyes(f1, 0, false)
-  drawSickMouth(f1, 0)
-  // Green tint on face
-  dot(f1, 15, 12, G)
-  dot(f1, 16, 12, G)
-  drawArms(f1, 0, "droopy")
-
-  drawLegs(f1, 0, "wobbly")
-
-  const f2 = blank()
-  drawBody(f2, 1)
-  drawDizzyEyes(f2, 1, true)
-  drawSickMouth(f2, 1)
-  dot(f2, 15, 13, G)
-  dot(f2, 16, 13, G)
-  drawArms(f2, 1, "droopy")
-
-  drawLegs(f2, 1, "wobbly")
-
-  return { frames: [f1, f2], frameDuration: 600 }
-}
-
 // Pre-generate all sprites
 const sprites: Record<CharacterState, SpriteAnimation> = {
+  normal: generateNormal(),
+  processing: generateProcessing(),
+  error: generateError(),
+  resolved: generateResolved(),
   idle: generateIdle(),
-  talking: generateTalking(),
-  coding: generateCoding(),
-  sleeping: generateSleeping(),
-  sick: generateSick(),
 }
 
 /** Get the sprite animation for a given character state */
