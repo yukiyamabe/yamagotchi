@@ -4,8 +4,8 @@ import type { CharacterState } from "@/types/agent-status"
 const _ = "#00000000" // transparent
 const K = "#1a1a2e" // black (outlines)
 const W = "#ffffff" // white
-const S = "#ffcc99" // skin
-const D = "#e6a86e" // skinShadow
+const S = "#fff44f" // lemon yellow
+const D = "#e6d840" // lemon shadow
 const E = "#1a1a2e" // eye
 const M = "#cc4444" // mouth
 const B = "#ff8899" // blush
@@ -13,6 +13,7 @@ const U = "#4488ff" // blue
 const G = "#44cc88" // green
 const R = "#ff4444" // red
 const Z = "#6666aa" // zzz
+const O = "#ff8c00" // orange pants
 
 export type SpriteFrame = string[][]
 export type SpriteAnimation = {
@@ -71,8 +72,20 @@ function rect(
 
 /** Draw the base body: round face with skin fill and outline */
 function drawBody(frame: SpriteFrame, offsetY = 0) {
-  // Main body circle (center 16,16 radius 10)
+  // Round ears (with outline)
+  circle(frame, 7, 9 + offsetY, 3, S, K)
+  circle(frame, 25, 9 + offsetY, 3, S, K)
+  // Main body circle (drawn after ears, skin fill covers inner ear outlines)
   circle(frame, 16, 16 + offsetY, 10, S, K)
+  // Fill over any remaining ear-body border with skin
+  for (let y = 6 + offsetY; y < 16 + offsetY; y++) {
+    for (let x = 6; x < 26; x++) {
+      const bodyDist = Math.sqrt((x - 16) ** 2 + (y - 16 - offsetY) ** 2)
+      if (bodyDist < 10 - 0.8 && frame[y]?.[x] === K) {
+        frame[y][x] = S
+      }
+    }
+  }
   // Shadow on bottom half
   for (let y = 17 + offsetY; y < 26 + offsetY; y++) {
     for (let x = 6; x < 26; x++) {
@@ -84,18 +97,35 @@ function drawBody(frame: SpriteFrame, offsetY = 0) {
   }
 }
 
+/** Draw orange pants on the lower body */
+function drawPants(frame: SpriteFrame, offsetY = 0) {
+  // Pants cover the bottom part of the body
+  for (let y = 22 + offsetY; y < 26 + offsetY; y++) {
+    for (let x = 8; x < 24; x++) {
+      const dist = Math.sqrt((x - 16) ** 2 + (y - 16 - offsetY) ** 2)
+      if (dist < 10 - 0.8 && y >= 0 && y < 32) {
+        frame[y][x] = O
+      }
+    }
+  }
+}
+
 /** Draw standard open eyes */
 function drawEyes(frame: SpriteFrame, offsetY = 0) {
-  // Left eye
-  dot(frame, 12, 14 + offsetY, W)
-  dot(frame, 13, 14 + offsetY, W)
-  dot(frame, 12, 15 + offsetY, E)
-  dot(frame, 13, 15 + offsetY, W)
-  // Right eye
-  dot(frame, 19, 14 + offsetY, W)
-  dot(frame, 20, 14 + offsetY, W)
+  // Left eye 2x3 (black with white highlight top-right)
+  dot(frame, 13, 13 + offsetY, E)
+  dot(frame, 14, 13 + offsetY, W)
+  dot(frame, 13, 14 + offsetY, E)
+  dot(frame, 14, 14 + offsetY, E)
+  dot(frame, 13, 15 + offsetY, E)
+  dot(frame, 14, 15 + offsetY, E)
+  // Right eye 2x3 (black with white highlight top-right)
+  dot(frame, 18, 13 + offsetY, E)
+  dot(frame, 19, 13 + offsetY, W)
+  dot(frame, 18, 14 + offsetY, E)
+  dot(frame, 19, 14 + offsetY, E)
+  dot(frame, 18, 15 + offsetY, E)
   dot(frame, 19, 15 + offsetY, E)
-  dot(frame, 20, 15 + offsetY, W)
 }
 
 /** Draw blush marks on cheeks */
@@ -420,24 +450,65 @@ function drawFlatMouth(frame: SpriteFrame, offsetY = 0) {
   dot(frame, 18, 19 + offsetY, M)
 }
 
+/** Draw an onigiri held in right hand */
+function drawOnigiri(frame: SpriteFrame, offsetY = 0) {
+  // Nori (seaweed wrap) at bottom
+  rect(frame, 23, 19 + offsetY, 4, 2, K)
+  // White rice triangle
+  dot(frame, 25, 15 + offsetY, W)
+  dot(frame, 24, 16 + offsetY, W)
+  dot(frame, 25, 16 + offsetY, W)
+  dot(frame, 26, 16 + offsetY, W)
+  dot(frame, 23, 17 + offsetY, W)
+  dot(frame, 24, 17 + offsetY, W)
+  dot(frame, 25, 17 + offsetY, W)
+  dot(frame, 26, 17 + offsetY, W)
+  dot(frame, 27, 17 + offsetY, W)
+  dot(frame, 23, 18 + offsetY, W)
+  dot(frame, 24, 18 + offsetY, W)
+  dot(frame, 25, 18 + offsetY, W)
+  dot(frame, 26, 18 + offsetY, W)
+  dot(frame, 27, 18 + offsetY, W)
+  // Outline
+  dot(frame, 25, 14 + offsetY, K)
+  dot(frame, 24, 15 + offsetY, K)
+  dot(frame, 26, 15 + offsetY, K)
+  dot(frame, 23, 16 + offsetY, K)
+  dot(frame, 27, 16 + offsetY, K)
+  dot(frame, 22, 17 + offsetY, K)
+  dot(frame, 28, 17 + offsetY, K)
+  dot(frame, 22, 18 + offsetY, K)
+  dot(frame, 28, 18 + offsetY, K)
+  dot(frame, 22, 19 + offsetY, K)
+  dot(frame, 27, 19 + offsetY, K)
+  dot(frame, 22, 20 + offsetY, K)
+  dot(frame, 27, 20 + offsetY, K)
+  dot(frame, 23, 21 + offsetY, K)
+  dot(frame, 24, 21 + offsetY, K)
+  dot(frame, 25, 21 + offsetY, K)
+  dot(frame, 26, 21 + offsetY, K)
+}
+
 // --- Sprite generation for each state ---
 
 function generateIdle(): SpriteAnimation {
   const f1 = blank()
   drawBody(f1, 0)
   drawEyes(f1, 0)
-  drawBlush(f1, 0)
   drawSmile(f1, 0)
   drawArms(f1, 0, "relaxed")
+
   drawLegs(f1, 0, "standing")
+  drawOnigiri(f1, 0)
 
   const f2 = blank()
   drawBody(f2, -1)
   drawEyes(f2, -1)
-  drawBlush(f2, -1)
   drawSmile(f2, -1)
   drawArms(f2, -1, "relaxed")
+
   drawLegs(f2, -1, "standing")
+  drawOnigiri(f2, -1)
 
   return { frames: [f1, f2], frameDuration: 500 }
 }
@@ -446,17 +517,17 @@ function generateTalking(): SpriteAnimation {
   const f1 = blank()
   drawBody(f1)
   drawEyes(f1)
-  drawBlush(f1)
   drawSmile(f1)
   drawArms(f1, 0, "relaxed")
+
   drawLegs(f1, 0, "standing")
 
   const f2 = blank()
   drawBody(f2)
   drawEyes(f2)
-  drawBlush(f2)
   drawOpenMouth(f2)
   drawArms(f2, 0, "gesture-left")
+
   drawLegs(f2, 0, "standing")
 
   return { frames: [f1, f2], frameDuration: 300 }
@@ -468,6 +539,7 @@ function generateCoding(): SpriteAnimation {
   drawFocusedEyes(f1)
   drawFlatMouth(f1)
   drawHands(f1, false)
+
   drawLegs(f1, 0, "standing")
 
   const f2 = blank()
@@ -475,6 +547,7 @@ function generateCoding(): SpriteAnimation {
   drawFocusedEyes(f2)
   drawFlatMouth(f2)
   drawHands(f2, true)
+
   drawLegs(f2, 0, "standing")
 
   return { frames: [f1, f2], frameDuration: 400 }
@@ -484,23 +557,23 @@ function generateSleeping(): SpriteAnimation {
   const f1 = blank()
   drawBody(f1, 1)
   drawClosedEyes(f1, 1)
-  drawBlush(f1, 1)
   // Tiny sleeping mouth
   dot(f1, 15, 20, M)
   dot(f1, 16, 20, M)
   dot(f1, 17, 20, M)
   drawArms(f1, 1, "tucked")
+
   drawLegs(f1, 1, "curled")
   drawZzz(f1)
 
   const f2 = blank()
   drawBody(f2, 1)
   drawClosedEyes(f2, 1)
-  drawBlush(f2, 1)
   dot(f2, 15, 20, M)
   dot(f2, 16, 20, M)
   dot(f2, 17, 20, M)
   drawArms(f2, 1, "tucked")
+
   drawLegs(f2, 1, "curled")
   // No Zzz in frame 2 (blink effect)
 
@@ -516,6 +589,7 @@ function generateSick(): SpriteAnimation {
   dot(f1, 15, 12, G)
   dot(f1, 16, 12, G)
   drawArms(f1, 0, "droopy")
+
   drawLegs(f1, 0, "wobbly")
 
   const f2 = blank()
@@ -525,6 +599,7 @@ function generateSick(): SpriteAnimation {
   dot(f2, 15, 13, G)
   dot(f2, 16, 13, G)
   drawArms(f2, 1, "droopy")
+
   drawLegs(f2, 1, "wobbly")
 
   return { frames: [f1, f2], frameDuration: 600 }
