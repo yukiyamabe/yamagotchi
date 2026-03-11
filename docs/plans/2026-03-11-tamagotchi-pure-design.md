@@ -103,7 +103,8 @@ yamagotchi-state: {
   isSleeping: boolean,
   allGoodSince: ISO8601文字列 | null,
   feedCount: number,
-  lastFedAt: ISO8601文字列 | null,
+  feedWindowStart: ISO8601文字列 | null（ごはん連続制限の10分ウィンドウ開始時刻）,
+  lastManualSleepAt: ISO8601文字列 | null（手動でんき操作の時刻。次の自動境界まで手動状態を維持）,
   totalAge: number（分単位、起動からの累計。現フェーズではUI表示なし。将来の進化判定用に記録のみ）
 }
 ```
