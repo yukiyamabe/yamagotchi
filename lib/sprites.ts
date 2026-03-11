@@ -1,4 +1,5 @@
 import type { CharacterState } from "@/types/agent-status"
+import type { TamagotchiExpression } from "@/types/tamagotchi"
 
 // Color palette
 const _ = "#00000000" // transparent
@@ -602,6 +603,29 @@ function drawOnigiri(frame: SpriteFrame, offsetY = 0) {
   dot(frame, 26, 21 + offsetY, K)
 }
 
+// Poop color
+const P = "#8B4513" // brown
+
+/** Draw a small poop on the frame */
+export function drawPoop(frame: SpriteFrame, x: number, y: number) {
+  // Top swirl
+  dot(frame, x + 1, y, P)
+  // Middle
+  dot(frame, x, y + 1, P)
+  dot(frame, x + 1, y + 1, P)
+  dot(frame, x + 2, y + 1, P)
+  // Bottom
+  dot(frame, x, y + 2, P)
+  dot(frame, x + 1, y + 2, P)
+  dot(frame, x + 2, y + 2, P)
+  // Outline bottom
+  dot(frame, x - 1, y + 3, K)
+  dot(frame, x, y + 3, P)
+  dot(frame, x + 1, y + 3, P)
+  dot(frame, x + 2, y + 3, P)
+  dot(frame, x + 3, y + 3, K)
+}
+
 // --- Sprite generation for each state ---
 
 function generateNormal(): SpriteAnimation {
@@ -715,6 +739,87 @@ function generateIdle(): SpriteAnimation {
   return { frames: [f1, f2], frameDuration: 800 }
 }
 
+// --- Tamagotchi expression sprites ---
+
+function generateHungry(): SpriteAnimation {
+  const f1 = blank()
+  drawBody(f1, 0)
+  drawEyes(f1, 0)
+  dot(f1, 15, 19, M)
+  dot(f1, 16, 19, M)
+  dot(f1, 17, 19, M)
+  dot(f1, 15, 20, M)
+  dot(f1, 16, 20, W)
+  dot(f1, 17, 20, M)
+  drawArms(f1, 0, "relaxed")
+  drawPants(f1, 0)
+  drawLegs(f1, 0, "standing")
+
+  const f2 = blank()
+  drawBody(f2, 0)
+  drawEyes(f2, 0)
+  drawFlatMouth(f2, 0)
+  drawArms(f2, 0, "relaxed")
+  drawPants(f2, 0)
+  drawLegs(f2, 0, "standing")
+
+  return { frames: [f1, f2], frameDuration: 400 }
+}
+
+function generateSad(): SpriteAnimation {
+  const f1 = blank()
+  drawBody(f1, 1)
+  drawClosedEyes(f1, 1)
+  dot(f1, 14, 21, M)
+  dot(f1, 15, 20, M)
+  dot(f1, 16, 20, M)
+  dot(f1, 17, 20, M)
+  dot(f1, 18, 21, M)
+  drawArms(f1, 1, "droopy")
+  drawPants(f1, 1)
+  drawLegs(f1, 1, "standing")
+
+  const f2 = blank()
+  drawBody(f2, 1)
+  drawClosedEyes(f2, 1)
+  dot(f2, 14, 21, M)
+  dot(f2, 15, 20, M)
+  dot(f2, 16, 20, M)
+  dot(f2, 17, 20, M)
+  dot(f2, 18, 21, M)
+  drawArms(f2, 1, "droopy")
+  drawPants(f2, 1)
+  drawLegs(f2, 1, "standing")
+  dot(f2, 10, 17, U)
+  dot(f2, 22, 17, U)
+
+  return { frames: [f1, f2], frameDuration: 700 }
+}
+
+function generateDirty(): SpriteAnimation {
+  const f1 = blank()
+  drawBody(f1, 0)
+  drawFrustratedEyes(f1, 0)
+  drawGrittedMouth(f1, 0)
+  drawArms(f1, 0, "tucked")
+  drawPants(f1, 0)
+  drawLegs(f1, 0, "standing")
+  dot(f1, 5, 10, U)
+  dot(f1, 5, 11, U)
+
+  const f2 = blank()
+  drawBody(f2, -1)
+  drawFrustratedEyes(f2, -1)
+  drawGrittedMouth(f2, -1)
+  drawArms(f2, -1, "tucked")
+  drawPants(f2, -1)
+  drawLegs(f2, -1, "standing")
+  dot(f2, 27, 10, U)
+  dot(f2, 27, 11, U)
+
+  return { frames: [f1, f2], frameDuration: 500 }
+}
+
 // Pre-generate all sprites
 const sprites: Record<CharacterState, SpriteAnimation> = {
   normal: generateNormal(),
@@ -724,7 +829,20 @@ const sprites: Record<CharacterState, SpriteAnimation> = {
   idle: generateIdle(),
 }
 
-/** Get the sprite animation for a given character state */
-export function getSprite(state: CharacterState): SpriteAnimation {
-  return sprites[state]
+const expressionSprites: Record<TamagotchiExpression, SpriteAnimation> = {
+  happy: sprites.normal,
+  hungry: generateHungry(),
+  sad: generateSad(),
+  dirty: generateDirty(),
+  drowsy: sprites.idle,
+  sick: sprites.error,
+  sleeping: sprites.idle,
+}
+
+/** Get the sprite animation for a given state or expression */
+export function getSprite(
+  state: CharacterState | TamagotchiExpression,
+): SpriteAnimation {
+  if (state in sprites) return sprites[state as CharacterState]
+  return expressionSprites[state as TamagotchiExpression]
 }

@@ -2,11 +2,13 @@
 
 import type { ReactNode } from "react"
 import type { CharacterState } from "@/types/agent-status"
+import type { TamagotchiExpression } from "@/types/tamagotchi"
 
 type Props = {
   children: ReactNode
-  state: CharacterState
+  state: CharacterState | TamagotchiExpression
   agentName: string
+  labelOverride?: string | null
 }
 
 const STATE_LABELS: Record<CharacterState, string> = {
@@ -17,20 +19,38 @@ const STATE_LABELS: Record<CharacterState, string> = {
   idle: "おやすみ中... 💤",
 }
 
-export function TamagotchiFrame({ children, state, agentName }: Props) {
+const EXPRESSION_LABELS: Record<TamagotchiExpression, string> = {
+  happy: "ごきげん 🫶",
+  hungry: "おなかすいた… 🍙",
+  sad: "しょんぼり… 😢",
+  dirty: "きたない… 💩",
+  drowsy: "ねむい… 💤",
+  sick: "ぐあいわるい… 🏥",
+  sleeping: "Zzz… 💤",
+}
+
+export function TamagotchiFrame({
+  children,
+  state,
+  agentName,
+  labelOverride,
+}: Props) {
+  const label =
+    labelOverride ??
+    (state in STATE_LABELS
+      ? STATE_LABELS[state as CharacterState]
+      : EXPRESSION_LABELS[state as TamagotchiExpression])
+
   return (
     <div className="flex flex-col items-center gap-4">
-      {/* 卵型フレーム */}
       <div className="relative rounded-[50%/60%] border-4 border-zinc-700 bg-zinc-900 p-8 shadow-xl">
-        {/* スクリーン */}
         <div className="rounded-xl border-2 border-zinc-600 bg-emerald-100 dark:bg-emerald-950 p-4">
           {children}
         </div>
       </div>
-      {/* ステータス表示 */}
       <div className="text-center font-mono text-sm">
         <div className="font-bold">{agentName}</div>
-        <div className="text-muted-foreground">{STATE_LABELS[state]}</div>
+        <div className="text-muted-foreground">{label}</div>
       </div>
     </div>
   )
